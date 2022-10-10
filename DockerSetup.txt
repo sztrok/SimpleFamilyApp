@@ -1,0 +1,3 @@
+To set up docker containers run following commands:
+docker build -t work-task.jar .
+docker-compose up -d

@@ -1,0 +1,33 @@
+version: '3.1'
+services:
+  API:
+    image: 'work-task.jar'
+    ports:
+      - "8080:8080"
+
+    depends_on:
+      - PostgreSQL
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://PostgreSQL:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=1234
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
+      - SPRING_FLYWAY_URL=jdbc:postgresql://PostgreSQL:5432/postgres
+      - SPRING_FLYWAY_USER=postgres
+      - SPRING_FLYWAY_PASSWORD=1234
+      - SPRING_FLYWAY_SCHEMAS=public
+
+
+  PostgreSQL:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
